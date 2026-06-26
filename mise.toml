@@ -1,0 +1,16 @@
+[tools]
+go = "1.26.4"
+
+[tasks.build]
+run = "go build -buildvcs=false"
+
+[tasks.dev]
+depends = [
+  "build",
+]
+run = [
+  "sudo cp opt-eikana /usr/local/bin/",
+  "sudo cp 2754github.opt-eikana.plist /Library/LaunchDaemons/",
+  "sudo launchctl unload /Library/LaunchDaemons/2754github.opt-eikana.plist 2>/dev/null || true",
+  "sudo launchctl load /Library/LaunchDaemons/2754github.opt-eikana.plist",
+]

@@ -1,0 +1,19 @@
+#!/bin/bash
+set -euo pipefail
+
+BINARY=opt-eikana
+BINARY_DIR=/usr/local/bin
+PLIST=2754github.opt-eikana.plist
+PLIST_DIR=/Library/LaunchDaemons
+GITHUB=https://raw.githubusercontent.com/2754github/opt-eikana/main
+
+sudo curl -fsSL $GITHUB/$BINARY -o $BINARY_DIR/$BINARY
+sudo chmod +x $BINARY_DIR/$BINARY
+
+sudo curl -fsSL $GITHUB/$PLIST -o $PLIST_DIR/$PLIST
+
+sudo launchctl unload $PLIST_DIR/$PLIST 2>/dev/null || true
+sudo launchctl load $PLIST_DIR/$PLIST
+
+echo ''
+echo "「システム設定 > プライバシーとセキュリティ > アクセシビリティ」で $BINARY_DIR/$BINARY を許可してください。"
